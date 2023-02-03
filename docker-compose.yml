@@ -1,4 +1,24 @@
-
-# docker run -d --name pg_t3_sibdev -e POSTGRES_PASSWORD=postgres -p 0.0.0.0:5432:5432  postgres
-
-
+version: '3'
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: django
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: django
+  redis:
+    image: redis:6
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: db
+      DB_NAME: django
+      DB_USER: django
+      DB_PASSWORD: secret
+      REDIS_HOST: redis
+    depends_on:
+      - db
+      - redis

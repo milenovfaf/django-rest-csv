@@ -1,16 +1,10 @@
 import requests
 
-
 url = "http://127.0.0.1:8000/api/deals/"
 
+file_name = 'deals.csv'
 
-# file = {'file': ('deals.csv', open('dev/deals.csv', 'rb'))}
-# response = requests.post(url, files=file)
-
-
-file = 'dev/deals.csv'
-
-response = requests.post(url, files={'file': open(file, 'rb')})
+response = requests.post(url, files={'file': open(file_name, 'rb')})
 
 print(response.json())
 
@@ -21,4 +15,3 @@ else:
 
 print("Response status:", response.status_code)
 response.raise_for_status()
-

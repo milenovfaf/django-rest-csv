@@ -1,10 +1,24 @@
+ЗАПУСК:
+- docker-compose build
+- docker-compose up
 
 
-docker-compose up
-docker-compose exec web python manage.py migrate
-docker-compose exec web python manage.py createsuperuser
+- POST  http://127.0.0.1:8000/api/deals/
+- GET   http://127.0.0.1:8000/api/deals/
+- admin:admin http://127.0.0.1:8000/admin
 
-http://127.0.0.1:8000/api/deals/
+РЕАЛИЗОВАННО:
+- Приём файлов .csv из POST-запроса и добавление данных в реляционную БД
+- Выдача обработанных данных в ответе на GET-запрос в соответствии с требованиями
+- Кэширование данных возвращаемых GET-эндпоинтом
+- Работа на многопоточном WSGI-сервере
+
+Дополнительно:
+- SQL запрос
+- Клиент для загрузки файла
+
+
+
 
 
 

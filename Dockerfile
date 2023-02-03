@@ -13,17 +13,22 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 RUN pip install uWSGI
 
 WORKDIR /app
-
 COPY ./requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY ./create_superuser.py  /app/create_superuser.py
+COPY ./entrypoint.sh        /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
 COPY ./src/django_project /app
+RUN python  manage.py collectstatic  --noinput
 
 ENV DJANGO_SETTINGS_MODULE=django_project.settings
 ENV PYTHONUNBUFFERED=1
 
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-CMD ["uwsgi", "--http", ":8000", "--module", "src.django_project.wsgi:application"]
 
+ENTRYPOINT ["sh", "/app/entrypoint.sh"]
+
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["uwsgi", "--http", ":8000", "--module", "django_project.wsgi:application"]
 

@@ -1,0 +1,27 @@
+[
+  {
+    "customer": "resplendent",
+    "total": 451731,
+    "products": ["Рубин", "Сапфир", "Танзанит"]
+  },
+  {
+    "customer": "bellwether",
+    "total": 217794,
+    "products": ["Петерсит", "Сапфир"]
+  },
+  {
+    "customer": "uvulaperfly117",
+    "total": 120419,
+    "products": ["Петерсит", "Танзанит"]
+  },
+  {
+    "customer": "braggadocio",
+    "total": 108957,
+    "products": ["Изумруд"]
+  },
+  {
+    "customer": "turophile",
+    "total": 100132,
+    "products": ["Изумруд", "Рубин"]
+  }
+]

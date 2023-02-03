@@ -10,7 +10,15 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_project.settings')
 
 application = get_wsgi_application()
+
+
+
+
+
+# from wsgiref.simple_server import make_server
+# with make_server('', 8000, application) as server:
+#     server.serve_forever()
+

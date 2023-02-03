@@ -7,4 +7,3 @@ urlpatterns = [
     path('api/',  include('app_deals.urls')),
 
 ]
-

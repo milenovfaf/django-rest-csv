@@ -9,9 +9,16 @@ from .models import Deals
 from .serializers import InputDealsSerializer
 from django.contrib.postgres.aggregates import ArrayAgg
 
+from django.urls import path
+from django.http import JsonResponse
+from django.core.cache import cache
+import datetime
+
 
 class DealsAPIView(APIView):
-    def get(self, request):
+    CACHE_KEY = 'top_five_spending_clients'
+
+    def _top_five_spending_clients(self):
         top_five_customers = (Deals.objects
                               .values('customer')
                               .annotate(spent_money=Sum('total'))
@@ -55,7 +62,16 @@ class DealsAPIView(APIView):
             'response': result,
         })
 
-    def post(self, request):
+    def get(self, request):
+        data = cache.get('CACHE_KEY')
+        if not data:
+            data = self._top_five_spending_clients()
+            cache.set('CACHE_KEY', data, 60 * 5)
+            return Response(data)
+        #
+        return JsonResponse(data)
+
+    def post(self, request, cache_key):
         file_obj = request.FILES['file']
         if not file_obj.name.endswith('.csv'):
             return Response({
@@ -80,6 +96,7 @@ class DealsAPIView(APIView):
                 )
             )
         #
+        cache.delete_pattern(cache_key)
         Deals.objects.all().delete()
         Deals.objects.bulk_create(_result_objects)
 
